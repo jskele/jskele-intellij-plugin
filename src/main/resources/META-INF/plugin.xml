@@ -23,6 +23,8 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <annotator language="JAVA" implementationClass="org.jskele.intellij.MethodAnnotator"/>
+        <projectConfigurable provider="org.jskele.intellij.gui.ProjectConfigurableProvider" displayName="JSkele"/>
+        <projectService serviceImplementation="org.jskele.intellij.core.ProjectSettings"/>
     </extensions>
 
 </idea-plugin>

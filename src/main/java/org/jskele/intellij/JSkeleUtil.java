@@ -1,8 +1,6 @@
 package org.jskele.intellij;
 
 import static java.util.Arrays.asList;
-import static org.jskele.intellij.Constants.GENERATE_SQL_ANNOTATION;
-import static org.jskele.intellij.Constants.ORG_JSKELE_LIBS_DAO_DAO;
 
 import java.util.Optional;
 
@@ -12,6 +10,7 @@ import com.intellij.psi.*;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.InheritanceUtil;
+import org.jskele.intellij.core.ProjectSettings;
 
 public final class JSkeleUtil {
 
@@ -22,16 +21,19 @@ public final class JSkeleUtil {
 			PsiMethod selectedMethod = (PsiMethod) psiElement.getContext();
 			PsiClass containingClass = selectedMethod.getContainingClass();
 			if (containingClass != null) {
-				return InheritanceUtil.isInheritor(containingClass, ORG_JSKELE_LIBS_DAO_DAO);
+				ProjectSettings state = ProjectSettings.getInstance(selectedMethod.getProject()).getState();
+				return InheritanceUtil.isInheritor(containingClass, state.daoInterfaceName);
 			}
 		}
 		return false;
 	}
 
 	public static boolean hasGenerateSqlAnnotation(PsiMethod psiMethod) {
+		ProjectSettings state = ProjectSettings.getInstance(psiMethod.getProject()).getState();
+		String generateSqlAnnotationName = state.generateSqlAnnotationName;
 		Optional<PsiAnnotation> hasGenerateSqlAnnotation = asList(psiMethod.getModifierList().getAnnotations())
 				.stream()
-				.filter(psiAnnotation -> GENERATE_SQL_ANNOTATION.equals(psiAnnotation.getQualifiedName()))
+				.filter(psiAnnotation -> generateSqlAnnotationName.equals(psiAnnotation.getQualifiedName()))
 				.findFirst();
 		return hasGenerateSqlAnnotation.isPresent();
 	}

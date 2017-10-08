@@ -1,8 +1,8 @@
 package org.jskele.intellij;
 
-import static org.jskele.intellij.Constants.MISSING_ANNOTATIONS_ERROR;
 import static org.jskele.intellij.JSkeleUtil.hasGenerateSqlAnnotation;
 import static org.jskele.intellij.JSkeleUtil.hasSqlFile;
+import static org.jskele.intellij.core.Constants.MISSING_ANNOTATIONS_ERROR;
 
 import java.util.stream.Stream;
 
@@ -16,6 +16,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiIdentifier;
 import com.intellij.psi.PsiMethod;
 import org.jetbrains.annotations.NotNull;
+import org.jskele.intellij.core.Constants;
 
 public class MethodAnnotator implements Annotator {
 	@Override
